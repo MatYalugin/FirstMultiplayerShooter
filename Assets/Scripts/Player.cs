@@ -1,61 +1,105 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SWNetwork; // подключаем библиотеку
+using SWNetwork; // ГЇГ®Г¤ГЄГ«ГѕГ·Г ГҐГ¬ ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГі
 
 public class Player : MonoBehaviour
 {
 
     public float health = 100f;
     public Text healthText;
+    private Text tipText;
     //Movement
     Rigidbody rb;
-    NetworkID networkID; // ссылка на мультиплеер компоненту
+    public NetworkID networkID; // Г±Г±Г»Г«ГЄГ  Г­Г  Г¬ГіГ«ГјГІГЁГЇГ«ГҐГҐГ° ГЄГ®Г¬ГЇГ®Г­ГҐГ­ГІГі
     float speed;
     public float defaultSpeed;
     public float sprintSpeed;
     bool sprintOn;
+    public AudioListener audioListener;
+    public Transform spawnpoint1;
+    public Transform spawnpoint2;
+
+    public GameObject playerCameraGO;
+
 
     private void Start()
     {
+        GameObject spawnpoint1GO = GameObject.FindGameObjectWithTag("spawnpoint1");
+        GameObject spawnpoint2GO = GameObject.FindGameObjectWithTag("spawnpoint2");
+
+        spawnpoint1 = spawnpoint1GO.transform;
+        spawnpoint2 = spawnpoint2GO.transform;
+
+
         rb = GetComponent<Rigidbody>();
-        networkID = GetComponent<NetworkID>(); // получаем ссылку
+        networkID = GetComponent<NetworkID>(); // ГЇГ®Г«ГіГ·Г ГҐГ¬ Г±Г±Г»Г«ГЄГі
         speed = defaultSpeed;
         healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<Text>();
+        tipText = GameObject.FindGameObjectWithTag("TipText").GetComponent<Text>();
+
+        if (gameObject.GetComponent<NetworkID>().IsMine == true)
+        {
+            audioListener.enabled = true;
+        }
+        if (gameObject.GetComponent<NetworkID>().IsMine == false)
+        {
+            audioListener.enabled = false;
+        }
     }
 
     void Update()
     {
-        if (networkID.IsMine) { // если этим персонажем управляем МЫ
-            healthText.text = "Health: " + health; // показываем здоровье игрока только самому себе
 
-            Sprint();
-            Move();
 
-            speed = sprintOn ? sprintSpeed : defaultSpeed;
+        if (gameObject.GetComponent<NetworkID>().IsMine == true)
+        {
+            if (networkID.IsMine == true)
+            { // ГҐГ±Г«ГЁ ГЅГІГЁГ¬ ГЇГҐГ°Г±Г®Г­Г Г¦ГҐГ¬ ГіГЇГ°Г ГўГ«ГїГҐГ¬ ГЊГ›
+                healthText.text = "Health: " + health; // ГЇГ®ГЄГ Г§Г»ГўГ ГҐГ¬ Г§Г¤Г®Г°Г®ГўГјГҐ ГЁГЈГ°Г®ГЄГ  ГІГ®Г«ГјГЄГ® Г±Г Г¬Г®Г¬Гі Г±ГҐГЎГҐ
+
+                Sprint();
+                Move();
+                speed = sprintOn ? sprintSpeed : defaultSpeed;
+
+                playerCameraGO.GetComponent<FirstPersonLook>().enabled = true;
+            }
+            playerCameraGO.SetActive(true);
+        }
+        else if (gameObject.GetComponent<NetworkID>().IsMine == false)
+        {
+            playerCameraGO.GetComponent<FirstPersonLook>().enabled = false;
+            playerCameraGO.GetComponent<Camera>().enabled = false;
+            playerCameraGO.SetActive(true);
         }
     }
 
     public void Hurt(float damage)
     {
         health -= damage;
-        if(health <= 0f)
+        healthText.text = "Health: " + health;
+        if (health <= 0f)
         {
             health = 100f;
-            transform.position = Vector3.zero;
+            if(Random.value > 0.5f)
+            {
+                gameObject.transform.position = spawnpoint1.position;
+            }
+            else
+            {
+                gameObject.transform.position = spawnpoint2.position;
+            }
+            
         }
     }
 
     public void Move()
     {
-        if (CheckGround())
-        {
-            float H = Input.GetAxis("Horizontal");
-            float V = Input.GetAxis("Vertical");
-            Vector3 Move = transform.right * H * speed + transform.forward * V * speed;
-            rb.velocity = new Vector3(Move.x, rb.velocity.y, Move.z);
-        }
+        float H = Input.GetAxis("Horizontal");
+        float V = Input.GetAxis("Vertical");
+        Vector3 Move = transform.right * H * speed + transform.forward * V * speed;
+        rb.velocity = new Vector3(Move.x, rb.velocity.y, Move.z);
     }
 
     public void Sprint()
@@ -68,10 +112,5 @@ public class Player : MonoBehaviour
         {
             sprintOn = false;
         }
-    }
-
-    public bool CheckGround()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, transform.localScale.y + 0.1f);
     }
 }

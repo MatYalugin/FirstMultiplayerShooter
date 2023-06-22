@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 1307773007288402755}
   - component: {fileID: 7845995909629068709}
   - component: {fileID: 8076530604617622271}
-  - component: {fileID: 3705906681797994026}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -178,8 +177,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   healthText: {fileID: 0}
+  networkID: {fileID: 2651637358232069005}
   defaultSpeed: 3.5
   sprintSpeed: 7
+  audioListener: {fileID: 7657298212428586462}
+  playerCameraGO: {fileID: 5115848500500261057}
 --- !u!114 &2651637358232069005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,14 +295,14 @@ MonoBehaviour:
       maxInt: 300
     externalFreeze: 0.2
   syncedAnimator:
-    animator: {fileID: 0}
+    animator: {fileID: 1830378809392018749}
     syncParameters: []
     bandwidth: 0
     padding: 0
   syncTransFormEnabled: 1
-  syncAnimatorEnabled: 0
+  syncAnimatorEnabled: 1
   syncTransFormFoldout: 1
-  syncAnimatorFoldout: 0
+  syncAnimatorFoldout: 1
   restoreState: 1
 --- !u!114 &7845995909629068709
 MonoBehaviour:
@@ -372,19 +374,6 @@ MonoBehaviour:
           m_CallState: 2
   restoreState: 1
   AutoInitialization: 1
---- !u!114 &3705906681797994026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 493624796889792828}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecf1e2a2d14394148838d95a0f86ae07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 5115848500500261057}
 --- !u!1 &550731516140784568
 GameObject:
   m_ObjectHideFlags: 0
@@ -6512,8 +6501,9 @@ MonoBehaviour:
   maxAmmo: 18
   mags: 3
   ammoText: {fileID: 0}
-  playerCamera: {fileID: 5115848500500261057}
+  playerGO: {fileID: 493624796889792828}
   enableChangeWeaponScriptTime: 1.5
+  networkID: {fileID: 2651637358232069005}
 --- !u!1 &4156012367692038460
 GameObject:
   m_ObjectHideFlags: 0
@@ -12231,8 +12221,9 @@ MonoBehaviour:
   maxAmmo: 30
   mags: 3
   ammoText: {fileID: 0}
-  playerCamera: {fileID: 5115848500500261057}
+  playerGO: {fileID: 493624796889792828}
   enableChangeWeaponScriptTime: 2.3
+  networkID: {fileID: 2651637358232069005}
 --- !u!1 &7966100703910694359
 GameObject:
   m_ObjectHideFlags: 0
@@ -12601,8 +12592,10 @@ MonoBehaviour:
   kickSound: {fileID: 2943779891468721188}
   damage: 60
   mainCamera: {fileID: 2689051181152028614}
-  fireRate: 0.8
+  playerGO: {fileID: 493624796889792828}
+  fireRate: 0.7
   ammoText: {fileID: 0}
+  networkID: {fileID: 2651637358232069005}
 --- !u!95 &2656145149004542790
 Animator:
   serializedVersion: 5

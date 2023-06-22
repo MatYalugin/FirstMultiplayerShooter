@@ -11,17 +11,8 @@ public class FirstPersonLook : MonoBehaviour
     Vector2 velocity;
     Vector2 frameVelocity;
 
-    NetworkID networkID; // ссылка на мультиплеер компоненту
-
     void Start()
     {
-        networkID = GetComponentInParent<NetworkID>(); // получаем ссылку
-
-        if (networkID != null && networkID.IsMine)
-        { // если этим персонажем управляем НЕ МЫ
-            gameObject.SetActive(false); // выключаем скрипт
-        }
-
         // Lock the mouse cursor to the game screen.
         Cursor.lockState = CursorLockMode.Locked;
     }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - HealthText
   - AmmoText
+  - TipText
+  - spawnpoint1
+  - spawnpoint2
   layers:
   - Default
   - TransparentFX

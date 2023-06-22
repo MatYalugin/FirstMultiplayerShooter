@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SWNetwork; // подключаем библиотеку
 
 public class Melee : MonoBehaviour
 {
@@ -10,9 +11,12 @@ public class Melee : MonoBehaviour
     public AudioSource kickSound;
     public float damage = 30f;
     public Camera mainCamera;
+    public GameObject playerGO;
     public float fireRate = 1f;
     private bool isReadyToKick = true;
     public Text ammoText;
+
+    public NetworkID networkID;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,16 +26,19 @@ public class Melee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ammoText.text = "Ammo: &";
-        Kick();
+        if (networkID.IsMine == true)
+        {
+            ammoText.text = "Ammo: &";
 
-        if (isReadyToKick != true)
-        {
-            mainCamera.GetComponent<ChangeWeapon>().enabled = false;
-        }
-        if (isReadyToKick == true)
-        {
-            mainCamera.GetComponent<ChangeWeapon>().enabled = true;
+            Kick();
+            if (isReadyToKick != true)
+            {
+                playerGO.GetComponent<ChangeWeapon>().enabled = false;
+            }
+            if (isReadyToKick == true)
+            {
+                playerGO.GetComponent<ChangeWeapon>().enabled = true;
+            }
         }
     }
     public void Kick()

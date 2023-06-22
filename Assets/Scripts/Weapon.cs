@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SWNetwork; // подключаем библиотеку
 
 public class Weapon : MonoBehaviour
 {
@@ -18,8 +19,10 @@ public class Weapon : MonoBehaviour
     public int maxAmmo;
     public int mags;
     public Text ammoText;
-    public GameObject playerCamera;
+    public GameObject playerGO;
     public float enableChangeWeaponScriptTime;
+
+    public NetworkID networkID;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,21 +33,24 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.R) && mags != 0)
+        if (networkID.IsMine == true)
         {
-            Reload();
-        }
-        Shot();
-        ammoText.text = "Ammo: " + ammo + "/" + mags;
+            ammoText.text = "Ammo: " + ammo + "/" + mags;
 
-        //if(isReadyToFire != true)
-        //{
-            //playerCamera.GetComponent<ChangeWeapon>().enabled = false;
-        //}
-        //if (isReadyToFire == true)
-        //{
-            //playerCamera.GetComponent<ChangeWeapon>().enabled = true;
-        //}
+            if (isReadyToFire != true && networkID.IsMine == true)
+            {
+                playerGO.GetComponent<ChangeWeapon>().enabled = false;
+            }
+            if (isReadyToFire == true && networkID.IsMine == true)
+            {
+                playerGO.GetComponent<ChangeWeapon>().enabled = true;
+            }
+            Shot();
+            if (Input.GetKey(KeyCode.R) && mags != 0)
+            {
+                Reload();
+            }
+        }
     }
     public void Shot()
     {
@@ -82,7 +88,7 @@ public class Weapon : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, distance))
                 {
-                    if (hit.transform.tag.Equals("Player"))
+                    if (hit.transform.tag.Equals("Player") && networkID.IsMine)
                     {
                         hit.transform.GetComponent<Player>().Hurt(damage);
                     }
@@ -95,7 +101,7 @@ public class Weapon : MonoBehaviour
     {
         if(ammo != maxAmmo)
         {
-            playerCamera.GetComponent<ChangeWeapon>().enabled = false;
+            playerGO.GetComponent<ChangeWeapon>().enabled = false;
             isReadyToFire = false;
             Invoke("makeReadyToFire", enableChangeWeaponScriptTime);
             animator.Play("Reload");
