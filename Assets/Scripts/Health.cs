@@ -18,8 +18,10 @@ public class Health : MonoBehaviour
     [SerializeField] Text abovePlayerText;
     [SerializeField] Text uiText;
 
+    public GameObject healthBarGO;
+
     public Material auraMat;
-    private Material previousPlayerMat;
+    public Material playerMat;
     public bool isImmortal;
 
     public GameObject rifleHand1;
@@ -28,9 +30,13 @@ public class Health : MonoBehaviour
     public GameObject knifeHand;
     public GameObject playerMesh;
 
-    private void Start()
+    public Camera playerCamera;
+    public void Start()
     {
-        previousPlayerMat = playerMesh.GetComponent<MeshRenderer>().material;
+        if (networkID.IsMine == true)
+        {
+            abovePlayerText.enabled = false;
+        }
         isImmortal = true;
         Invoke("MakeNotImmortal", 3f);
         if (networkID.IsMine)
@@ -43,6 +49,11 @@ public class Health : MonoBehaviour
 
         if (syncPropertyAgent.GetPropertyWithName(healthKey).version == 0)
             syncPropertyAgent.Modify(healthKey, healthMax);
+
+        if(networkID.IsMine == false)
+        {
+            healthBarGO.GetComponent<Canvas>().worldCamera = playerCamera;
+        }
     }
 
     private void Update()
@@ -61,11 +72,11 @@ public class Health : MonoBehaviour
         }
         else
         {
-            rifleHand1.GetComponent<MeshRenderer>().material = previousPlayerMat;
-            rifleHand2.GetComponent<MeshRenderer>().material = previousPlayerMat;
-            pistolHand.GetComponent<MeshRenderer>().material = previousPlayerMat;
-            knifeHand.GetComponent<MeshRenderer>().material = previousPlayerMat;
-            playerMesh.GetComponent<MeshRenderer>().material = previousPlayerMat;
+            rifleHand1.GetComponent<MeshRenderer>().material = playerMat;
+            rifleHand2.GetComponent<MeshRenderer>().material = playerMat;
+            pistolHand.GetComponent<MeshRenderer>().material = playerMat;
+            knifeHand.GetComponent<MeshRenderer>().material = playerMat;
+            playerMesh.GetComponent<MeshRenderer>().material = playerMat;
         }
     }
 

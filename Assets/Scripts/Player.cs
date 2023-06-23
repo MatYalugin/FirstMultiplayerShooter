@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public Health health;
 
     private Text tipText;
+    public Text playerNameText;
 
     Rigidbody rb;
     NetworkID networkID;
@@ -24,12 +25,12 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         networkID = GetComponent<NetworkID>();
         speed = defaultSpeed;
-
         playerCameraGO.SetActive(true);
 
         if (networkID.IsMine)
         {
-            tipText = GameObject.FindGameObjectWithTag("TipText").GetComponent<Text>();
+            playerNameText.enabled = false;
+           tipText = GameObject.FindGameObjectWithTag("TipText").GetComponent<Text>();
 
             audioListener.enabled = true;
 
@@ -37,8 +38,8 @@ public class Player : MonoBehaviour
         }
         else
         {
+            playerNameText.text = networkID.OwnerCustomPlayerId;
             audioListener.enabled = false;
-
             playerCameraGO.GetComponent<FirstPersonLook>().enabled = false;
             playerCameraGO.GetComponent<Camera>().enabled = false;
         }

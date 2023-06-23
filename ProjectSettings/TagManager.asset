@@ -9,6 +9,8 @@ TagManager:
   - TipText
   - spawnpoint1
   - spawnpoint2
+  - Undefined
+  - PlayerNameText
   layers:
   - Default
   - TransparentFX
