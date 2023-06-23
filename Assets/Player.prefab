@@ -121,6 +121,7 @@ Transform:
   - {fileID: 6405220686162904188}
   - {fileID: 7281249410674566730}
   - {fileID: 568253854141022343}
+  - {fileID: 119055392170947568}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -549,6 +550,13 @@ MonoBehaviour:
   healthKey: Health
   abovePlayerText: {fileID: 8623706454209728343}
   uiText: {fileID: 0}
+  auraMat: {fileID: 2100000, guid: a55034dba4488964a84328bd6e32c646, type: 2}
+  isImmortal: 0
+  rifleHand1: {fileID: 3169913163470456167}
+  rifleHand2: {fileID: 8386017986752710695}
+  pistolHand: {fileID: 8965262355339032033}
+  knifeHand: {fileID: 3790880500614974979}
+  playerMesh: {fileID: 493624796355858189}
 --- !u!1 &550731516140784568
 GameObject:
   m_ObjectHideFlags: 0
@@ -6822,10 +6830,10 @@ MonoBehaviour:
   animator: {fileID: 4922563694103894806}
   muzzleFlash: {fileID: 9189415808334754257}
   shotSound: {fileID: 359137691328137275}
-  damage: 30
+  damage: 20
   mainCamera: {fileID: 2689051181152028614}
   autoFire: 0
-  fireRate: 0.34
+  fireRate: 0.32
   maxAmmo: 18
   mags: 3
   ammoText: {fileID: 0}
@@ -12504,6 +12512,87 @@ Transform:
   m_Father: {fileID: 4562779238916765094}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &6424575004043290770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 119055392170947568}
+  - component: {fileID: 730192302278807017}
+  - component: {fileID: 998952180170465743}
+  m_Layer: 0
+  m_Name: ImmortalAura
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &119055392170947568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424575004043290770}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.9, z: 0}
+  m_LocalScale: {x: 1.02, y: 0.9, z: 1.02}
+  m_Children: []
+  m_Father: {fileID: 493624796889792772}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &730192302278807017
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424575004043290770}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &998952180170465743
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424575004043290770}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a55034dba4488964a84328bd6e32c646, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6566390074811501111
 GameObject:
   m_ObjectHideFlags: 0
@@ -12574,7 +12663,7 @@ MonoBehaviour:
   animator: {fileID: 1830378809392018749}
   muzzleFlash: {fileID: 4987309682265888024}
   shotSound: {fileID: 7471565478909317406}
-  damage: 50
+  damage: 30
   mainCamera: {fileID: 2689051181152028614}
   autoFire: 1
   fireRate: 0.12
