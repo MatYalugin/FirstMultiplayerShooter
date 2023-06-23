@@ -54,7 +54,7 @@ public class Melee : MonoBehaviour
             {
                 if (hit.transform.tag.Equals("Player"))
                 {
-                    hit.transform.GetComponent<Player>().Hurt(damage);
+                    hit.transform.GetComponent<Player>().health.Damage(damage);
                 }
             }
         }

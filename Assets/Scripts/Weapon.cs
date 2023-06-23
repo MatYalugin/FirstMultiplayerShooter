@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using SWNetwork; // подключаем библиотеку
+using SWNetwork;
 
-public class Weapon : MonoBehaviour
-{
+public class Weapon : MonoBehaviour {
+
+    ChangeWeapon changeWeapon;
+
     public float distance;
     public Animator animator;
     public ParticleSystem muzzleFlash;
-    public AudioSource shotSound;
+    public SWAudioSource shotSound;
     public float damage = 30f;
     public Camera mainCamera;
     public bool autoFire;
@@ -23,85 +23,60 @@ public class Weapon : MonoBehaviour
     public float enableChangeWeaponScriptTime;
 
     public NetworkID networkID;
-    // Start is called before the first frame update
-    void Start()
-    {
+
+    void Start() {
         ammo = maxAmmo;
-        ammoText = GameObject.FindGameObjectWithTag("AmmoText").GetComponent<Text>();
+
+        if (networkID.IsMine) {
+            ammoText = GameObject.FindGameObjectWithTag("AmmoText").GetComponent<Text>();
+            changeWeapon = playerGO.GetComponent<ChangeWeapon>();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (networkID.IsMine == true)
-        {
+    void Update() {
+        if (networkID.IsMine) {
             ammoText.text = "Ammo: " + ammo + "/" + mags;
 
-            if (isReadyToFire != true && networkID.IsMine == true)
-            {
-                playerGO.GetComponent<ChangeWeapon>().enabled = false;
-            }
-            if (isReadyToFire == true && networkID.IsMine == true)
-            {
-                playerGO.GetComponent<ChangeWeapon>().enabled = true;
-            }
-            Shot();
-            if (Input.GetKey(KeyCode.R) && mags != 0)
-            {
+            changeWeapon.enabled = isReadyToFire;
+
+            TryShot();
+
+            if (Input.GetKey(KeyCode.R) && mags != 0) {
                 Reload();
             }
         }
     }
-    public void Shot()
-    {
 
-        if(autoFire == false)
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && isReadyToFire == true && ammo != 0)
-            {
-                ammo -= 1;
-                isReadyToFire = false;
-                Invoke("makeReadyToFire", fireRate);
-                animator.Play("Shot");
-                muzzleFlash.Play();
-                shotSound.Play();
-                RaycastHit hit;
-                if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, distance))
-                {
-                    if (hit.transform.tag.Equals("Player"))
-                    {
-                        hit.transform.GetComponent<Player>().Hurt(damage);
-                    }
-                }
+    public void TryShot() {
+        if (autoFire == false) {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && isReadyToFire == true && ammo != 0) {
+                FireBullet();
             }
-        }
-        if (autoFire == true)
-        {
-            if (Input.GetKey(KeyCode.Mouse0) && isReadyToFire == true && ammo != 0)
-            {
-                ammo -= 1;
-                isReadyToFire = false;
-                Invoke("makeReadyToFire", fireRate);
-                animator.Play("Shot");
-                muzzleFlash.Play();
-                shotSound.Play();
-                RaycastHit hit;
-                if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, distance))
-                {
-                    if (hit.transform.tag.Equals("Player") && networkID.IsMine)
-                    {
-                        hit.transform.GetComponent<Player>().Hurt(damage);
-                    }
-                }
+
+        } else {
+            if (Input.GetKey(KeyCode.Mouse0) && isReadyToFire == true && ammo != 0) {
+                FireBullet();
             }
         }
     }
 
-    public void Reload()
-    {
-        if(ammo != maxAmmo)
-        {
-            playerGO.GetComponent<ChangeWeapon>().enabled = false;
+    private void FireBullet() {
+        ammo -= 1;
+        isReadyToFire = false;
+        Invoke("makeReadyToFire", fireRate);
+        animator.Play("Shot");
+        muzzleFlash.Play();
+        shotSound.Play();
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, distance)) {
+            if (hit.transform.TryGetComponent(out Player player)) {
+                player.health.Damage(damage);
+            }
+        }
+    }
+
+    public void Reload() {
+        if (ammo != maxAmmo) {
+            changeWeapon.enabled = false;
             isReadyToFire = false;
             Invoke("makeReadyToFire", enableChangeWeaponScriptTime);
             animator.Play("Reload");
@@ -109,8 +84,8 @@ public class Weapon : MonoBehaviour
             mags -= 1;
         }
     }
-    public void makeReadyToFire()
-    {
+
+    public void makeReadyToFire() {
         isReadyToFire = true;
     }
 }

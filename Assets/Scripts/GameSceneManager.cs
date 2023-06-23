@@ -9,6 +9,7 @@ public class GameSceneManager : MonoBehaviour {
     // вообще можно взять случайный спавн для каждого,
     // типа random.range или вообще каждому давать уникальный
     public void OnSpawnerReady(bool finishedSetup, SceneSpawner spawner) {
+
         if (!finishedSetup) {
             if (NetworkClient.Instance.IsHost) { // если мы хост
                 spawner.SpawnForPlayer(0, 0); // спавним префаб под индексом 0 на спавне с индексом 0

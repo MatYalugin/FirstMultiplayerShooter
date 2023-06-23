@@ -133,7 +133,7 @@ public class Lobby : MonoBehaviour
     public void Play()
     {
         // Here we use the JoinOrCreateRoom method to get player into rooms quickly.
-        NetworkClient.Lobby.JoinOrCreateRoom(true, 2, 20, HandleJoinOrCreatedRoom);
+        NetworkClient.Lobby.JoinOrCreateRoom(true, 5, 20, HandleJoinOrCreatedRoom);
     }
 
     /* Lobby helper methods*/
