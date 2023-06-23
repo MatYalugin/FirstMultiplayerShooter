@@ -6932,6 +6932,7 @@ MonoBehaviour:
   damage: 20
   mainCamera: {fileID: 2689051181152028614}
   autoFire: 0
+  invokeAnimDuration: 3.5
   fireRate: 0.32
   maxAmmo: 18
   mags: 3
@@ -7672,7 +7673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6405220686162904188
 Transform:
   m_ObjectHideFlags: 0
@@ -13012,6 +13013,7 @@ MonoBehaviour:
   damage: 30
   mainCamera: {fileID: 2689051181152028614}
   autoFire: 1
+  invokeAnimDuration: 3.5
   fireRate: 0.12
   maxAmmo: 30
   mags: 3
@@ -13419,6 +13421,7 @@ MonoBehaviour:
   mainCamera: {fileID: 2689051181152028614}
   playerGO: {fileID: 493624796889792828}
   fireRate: 0.7
+  invokeAnimDuration: 3.5
   ammoText: {fileID: 0}
   networkID: {fileID: 2651637358232069005}
 --- !u!95 &2656145149004542790

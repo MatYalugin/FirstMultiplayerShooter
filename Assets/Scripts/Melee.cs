@@ -13,6 +13,7 @@ public class Melee : MonoBehaviour
     public Camera mainCamera;
     public GameObject playerGO;
     public float fireRate = 1f;
+    public float invokeAnimDuration = 3.5f;
     private bool isReadyToKick = true;
     public Text ammoText;
 
@@ -39,6 +40,10 @@ public class Melee : MonoBehaviour
             {
                 playerGO.GetComponent<ChangeWeapon>().enabled = true;
             }
+            if (Input.GetKey(KeyCode.F))
+            {
+                Inspection();
+            }
         }
     }
     public void Kick()
@@ -59,8 +64,15 @@ public class Melee : MonoBehaviour
             }
         }
     }
+    public void Inspection()
+    {
+        animator.Play("Inspection");
+        isReadyToKick = false;
+        Invoke("makeReadyToKick", invokeAnimDuration);
+    }
     public void makeReadyToKick()
     {
         isReadyToKick = true;
     }
+
 }

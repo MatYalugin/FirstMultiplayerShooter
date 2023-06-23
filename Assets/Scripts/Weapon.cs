@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour {
     public float damage = 30f;
     public Camera mainCamera;
     public bool autoFire;
+    public float invokeAnimDuration = 3.5f;
     public float fireRate = 2f;
     private bool isReadyToFire = true;
     private int ammo;
@@ -43,6 +44,10 @@ public class Weapon : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.R) && mags != 0) {
                 Reload();
+            }
+            if (Input.GetKey(KeyCode.F))
+            {
+                Inspection();
             }
         }
     }
@@ -83,6 +88,12 @@ public class Weapon : MonoBehaviour {
             ammo = maxAmmo;
             mags -= 1;
         }
+    }
+    public void Inspection()
+    {
+        animator.Play("Inspection");
+        isReadyToFire = false;
+        Invoke("makeReadyToFire", invokeAnimDuration);
     }
 
     public void makeReadyToFire() {
