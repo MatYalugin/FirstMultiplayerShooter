@@ -308,7 +308,7 @@ MonoBehaviour:
     bandwidth: 0
     padding: 0
   syncTransFormEnabled: 1
-  syncAnimatorEnabled: 1
+  syncAnimatorEnabled: 0
   syncTransFormFoldout: 1
   syncAnimatorFoldout: 0
   restoreState: 1
@@ -532,6 +532,48 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - Foldout: 1
+    name: Rifle
+    type: 2
+    conflictResolution: 0
+    data: 
+    onValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    onConflict:
+      m_PersistentCalls:
+        m_Calls: []
+    onReady:
+      m_PersistentCalls:
+        m_Calls: []
+  - Foldout: 1
+    name: Pistol
+    type: 2
+    conflictResolution: 0
+    data: 
+    onValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    onConflict:
+      m_PersistentCalls:
+        m_Calls: []
+    onReady:
+      m_PersistentCalls:
+        m_Calls: []
+  - Foldout: 1
+    name: Knife
+    type: 2
+    conflictResolution: 0
+    data: 
+    onValueChange:
+      m_PersistentCalls:
+        m_Calls: []
+    onConflict:
+      m_PersistentCalls:
+        m_Calls: []
+    onReady:
+      m_PersistentCalls:
+        m_Calls: []
   restoreState: 1
   AutoInitialization: 1
 --- !u!114 &6840211555620802568
