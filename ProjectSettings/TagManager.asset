@@ -11,6 +11,7 @@ TagManager:
   - spawnpoint2
   - Undefined
   - PlayerNameText
+  - lastPlayerConnectedText
   layers:
   - Default
   - TransparentFX

@@ -11,10 +11,13 @@ public class FirstPersonLook : MonoBehaviour
     Vector2 velocity;
     Vector2 frameVelocity;
 
+    private Camera playerCamera;
+
     void Start()
     {
         // Lock the mouse cursor to the game screen.
         Cursor.lockState = CursorLockMode.Locked;
+        playerCamera = GetComponent<Camera>();
     }
 
     void Update()
@@ -29,5 +32,15 @@ public class FirstPersonLook : MonoBehaviour
         // Rotate camera up-down and controller left-right from velocity.
         transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+    }
+
+    private void LateUpdate()
+    {
+        Canvas[] allCanvases = FindObjectsOfType<Canvas>();
+
+        foreach (Canvas canvas in allCanvases)
+        {
+            canvas.transform.rotation = playerCamera.transform.rotation;
+        }
     }
 }

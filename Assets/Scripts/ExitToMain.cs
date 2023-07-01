@@ -7,10 +7,8 @@ public class ExitToMain : MonoBehaviour {
     [SerializeField] NetworkID networkId;
     [SerializeField] SyncPropertyAgent syncPropertyAgent;
     [SerializeField] string leaveBoolKey = "PlayerLeaveGame";
-
     [Space]
     [SerializeField] GameObject playerObject;
-
     private void Update() {
         if (Input.GetKey(KeyCode.Escape) && Input.GetKeyDown(KeyCode.P) && networkId.IsMine) {
             LeavePlayer();
@@ -30,10 +28,13 @@ public class ExitToMain : MonoBehaviour {
         });
     }
 
-    public void OnPlayerLeftSynced() {
+    public void OnPlayerLeftSynced()
+    {
         bool isLeft = syncPropertyAgent.GetPropertyWithName(leaveBoolKey).GetBoolValue();
 
         if (isLeft)
-            Destroy(playerObject);
+        {
+            Destroy(playerObject);   
+        }
     }
 }

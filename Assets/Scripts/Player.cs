@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     private Text tipText;
     public Text playerNameText;
+    public Text lastPlayerConnectedText;
 
     Rigidbody rb;
     NetworkID networkID;
@@ -26,11 +27,14 @@ public class Player : MonoBehaviour
         networkID = GetComponent<NetworkID>();
         speed = defaultSpeed;
         playerCameraGO.SetActive(true);
+        lastPlayerConnectedText = GameObject.FindGameObjectWithTag("lastPlayerConnectedText").GetComponent<Text>();
+        lastPlayerConnectedText.text = "Player \"" + networkID.OwnerCustomPlayerId + "\" has joined the game";
 
         if (networkID.IsMine)
         {
             playerNameText.enabled = false;
-           tipText = GameObject.FindGameObjectWithTag("TipText").GetComponent<Text>();
+            tipText = GameObject.FindGameObjectWithTag("TipText").GetComponent<Text>();
+            
 
             audioListener.enabled = true;
 
@@ -39,6 +43,7 @@ public class Player : MonoBehaviour
         else
         {
             playerNameText.text = networkID.OwnerCustomPlayerId;
+
             audioListener.enabled = false;
             playerCameraGO.GetComponent<FirstPersonLook>().enabled = false;
             playerCameraGO.GetComponent<Camera>().enabled = false;
@@ -57,6 +62,10 @@ public class Player : MonoBehaviour
             Sprint();
             Move();
             speed = sprintOn ? sprintSpeed : defaultSpeed;
+        }
+        if (lastPlayerConnectedText.text != "")
+        {
+            Invoke("clearLastPlayerConnectedText", 2f);
         }
     }
 
@@ -84,5 +93,13 @@ public class Player : MonoBehaviour
         {
             sprintOn = false;
         }
+    }
+    private void OnDestroy()
+    {
+        lastPlayerConnectedText.text = "Player \"" + networkID.OwnerCustomPlayerId + "\" has left the game";
+    }
+    public void clearLastPlayerConnectedText()
+    {
+        lastPlayerConnectedText.text = "";
     }
 }
